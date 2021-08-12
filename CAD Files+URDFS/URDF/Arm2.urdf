@@ -7,7 +7,8 @@
 		    <origin xyz="0 0 0" rpy="0 0 0"/>
           <axis xyz="0 0 0" />
 			<geometry>
-				<box size=".5 .6 0.4"/>
+			<box size=".5 .6 0.4"/>
+			<origin xyz="0 0 0"/>
 			</geometry>
 			<material name="c">
 	       		<color rgba="0 0.9 0.9 1.0"/>
@@ -114,7 +115,7 @@
 
 	<!-- * * * Joint Definitions * * * -->
 	
-	<joint name="Stepper1Joint" type="revolute">
+	<joint name="Stepper1Joint" type="continuous">
     	<parent link="base_link"/>
     	<child link="Stepper1arm"/>
     	<origin xyz="0 0 0" rpy="0 0 0"/>
@@ -128,7 +129,7 @@
     	<origin xyz="0 0 0" rpy="0 0 0"/>
 	</joint>
 
-	<joint name="Stepper2Joint" type="revolute">
+	<joint name="Stepper2Joint" type="continuous">
     	<parent link="Stepper2Base"/>
     	<child link="Stepper2arm"/>
     	<origin xyz="0 0 .69" rpy="0 0 0"/>
@@ -146,7 +147,7 @@
     	<origin xyz="0 0 0" rpy="0 0 0"/>
 	</joint>
 
-	<joint name="Stepper3Joint" type="revolute">
+	<joint name="Stepper3Joint" type="continuous">
     	<parent link="Stepper3Base"/>
     	<child link="Stepper3arm"/>
     	<origin xyz="0.755 2.61 0.69" rpy="0 0 0"/>
@@ -159,7 +160,7 @@
     	<origin xyz="-0.755 -2.61 -0.69" rpy="0 0 0"/>
 	</joint>
 
-	<joint name="Stepper4Joint" type="revolute">
+	<joint name="Stepper4Joint" type="continuous">
     	<parent link="Stepper4Base"/>
     	<child link="Stepper4arm"/>
     	<origin xyz="0.755 2.96 0.98" rpy="0 0 0"/>
