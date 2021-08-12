@@ -1,0 +1,168 @@
+<robot name="WheelChairArm1">
+
+	<!-- * * * Link Definitions * * * -->
+
+ 	<link name="base_link">
+		<visual>
+		    <origin xyz="0 0 0" rpy="0 0 0"/>
+          <axis xyz="0 0 0" />
+			<geometry>
+				<box size=".5 .6 0.4"/>
+			</geometry>
+			<material name="c">
+	       		<color rgba="0 0.9 0.9 1.0"/>
+	     	</material>
+		</visual>	
+	</link>
+
+<link name="Stepper1arm">
+		<visual>
+		    <origin xyz="0 0 0.32" rpy="0 0 0"/>
+          <axis xyz="0 0 0" />
+			<geometry>
+				<cylinder radius="0.05" length=".24"/>
+			</geometry>
+			<material name="c">
+	       		<color rgba="0.3 0.15 0.9 1.0"/>
+	     	</material>
+		</visual>	
+	</link>
+<link name="Stepper2Base">
+		<visual>
+		    <origin xyz="0 0 0.69" rpy="0 0 0"/>
+          <axis xyz="0 0 0" />
+			<geometry>
+				<box size=".4 .5 .5"/>
+			</geometry>
+			<material name="Cyan2">
+	       		<color rgba="0.5 0.0 0.9 .6"/>
+	     	</material>
+		</visual>	
+	</link>
+<link name="Stepper2arm">
+		<visual>
+		    <origin xyz=".36 0 0" rpy="0 1.5708 0"/>
+          <axis xyz="0 0 0" />
+			<geometry>
+				<cylinder radius="0.05" length=".32"/>
+			</geometry>
+			<material name="Cyan2">
+	       		<color rgba="0.3 0.15 0.9 1.0"/>
+	     	</material>
+		</visual>	
+	</link>
+<link name="MainArm1">
+		<visual>
+		    <origin xyz="0.755 1.06 0.69" rpy="0 0 0"/>
+          <axis xyz="0 0 0" />
+			<geometry>
+				<box size=".47 2.12 .8"/>
+			</geometry>
+			<material name="C3">
+	       		<color rgba="0.5 .7 0.9 .6"/>
+	     	</material>
+		</visual>	
+	</link>
+<link name="Stepper3Base">
+		<visual>
+		    <origin xyz="0.755 2.31 0.69" rpy="0 0 0"/>
+          <axis xyz="0 0 0" />
+			<geometry>
+				<box size=".47 .38 .8"/>
+			</geometry>
+			<material name="C4">
+	       		<color rgba="0.25 0.0 0.9 .6"/>
+	     	</material>
+		</visual>	
+	</link>
+<link name="Stepper3arm">
+		<visual>
+		    <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+          <axis xyz="0 0 0" />
+			<geometry>
+				<cylinder radius="0.05" length=".22"/>
+			</geometry>
+			<material name="C4">
+	       		<color rgba="0.3 0.15 0.9 1.0"/>
+	     	</material>
+		</visual>	
+	</link>
+<link name="Stepper4Base">
+		<visual>
+		    <origin xyz="0.755 2.96 0.69" rpy="0 0 0"/>
+          <axis xyz="0 0 0" />
+			<geometry>
+				<box size=".48 .48 .36"/>
+			</geometry>
+			<material name="C5">
+	       		<color rgba="0.25 0.2 0.9 .8"/>
+	     	</material>
+		</visual>	
+	</link>
+<link name="Stepper4arm">
+		<visual>
+		    <origin xyz="0 0 0" rpy="0 0 0"/>
+          <axis xyz="0 0 0" />
+			<geometry>
+				<cylinder radius="0.05" length=".22"/>
+			</geometry>
+			<material name="C5">
+	       		<color rgba="0.3 0.15 0.9 1.0"/>
+	     	</material>
+		</visual>	
+	</link>
+
+	<!-- * * * Joint Definitions * * * -->
+	
+	<joint name="Stepper1Joint" type="revolute">
+    	<parent link="base_link"/>
+    	<child link="Stepper1arm"/>
+    	<origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+	</joint>
+
+
+	<joint name="S1toS2" type="fixed">
+    	<parent link="Stepper1arm"/>
+    	<child link="Stepper2Base"/>
+    	<origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+
+	<joint name="Stepper2Joint" type="revolute">
+    	<parent link="Stepper2Base"/>
+    	<child link="Stepper2arm"/>
+    	<origin xyz="0 0 .69" rpy="0 0 0"/>
+	</joint>
+
+	<joint name="S2toM" type="fixed">
+    	<parent link="Stepper2arm"/>
+    	<child link="MainArm1"/>
+    	<origin xyz="0 0 -0.69" rpy="0 0 0"/>
+	</joint>
+
+	<joint name="MtoS3" type="fixed">
+    	<parent link="MainArm1"/>
+    	<child link="Stepper3Base"/>
+    	<origin xyz="0 0 0" rpy="0 0 0"/>
+	</joint>
+
+	<joint name="Stepper3Joint" type="revolute">
+    	<parent link="Stepper3Base"/>
+    	<child link="Stepper3arm"/>
+    	<origin xyz="0.755 2.61 0.69" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+	</joint>
+
+	<joint name="S3toS4" type="fixed">
+    	<parent link="Stepper3arm"/>
+    	<child link="Stepper4Base"/>
+    	<origin xyz="-0.755 -2.61 -0.69" rpy="0 0 0"/>
+	</joint>
+
+	<joint name="Stepper4Joint" type="revolute">
+    	<parent link="Stepper4Base"/>
+    	<child link="Stepper4arm"/>
+    	<origin xyz="0.755 2.96 0.98" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+	</joint>
+</robot>
