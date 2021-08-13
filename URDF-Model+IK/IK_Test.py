@@ -3,7 +3,7 @@ import time
 import pybullet_data
 import os
 p.connect(p.GUI)
-coordinate=[2.7,1.5,.8]
+coordinate=[2,1,3]
 
 p.loadURDF(os.path.join(pybullet_data.getDataPath(), "plane.urdf"), 0, 0, 0)
 orn = p.getQuaternionFromEuler([0, 0, 0])
@@ -42,4 +42,4 @@ while True:
 
     p.stepSimulation()
     print(p.getLinkState(arm,7,computeForwardKinematics=1))
-    time.sleep(1. / 240.)
+    #time.sleep(1. / 240000.)
