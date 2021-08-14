@@ -148,7 +148,7 @@ def main():
     time.sleep(3)
     
     # Initialize the SDK of Myo Armband
-    myo.init(r'C:\Users\m\Desktop\myo-sdk-win-0.9.0\bin\myo64.dll')
+    myo.init(r'C:\Users\m\Desktop\Projects\EMGingers-control\Robotic-Hand-Machine-Learning\myo-sdk-win-0.9.0\bin\myo64.dll')
     hub = myo.Hub()
     listener = Listener(number_of_samples)            
     Train()
