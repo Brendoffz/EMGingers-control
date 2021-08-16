@@ -2,6 +2,9 @@
 #include <ESPUI.h>
 #include "secrets.h"
 #include "buttons.h"
+#include <Preferences.h>
+
+Preferences preferences;
 
 
 const byte DNS_PORT = 53;
@@ -48,20 +51,22 @@ Buttons ZDown(7);
 
 unsigned long previousMillis=0;
 
-int x=0;
-int y=0;
-int z=0;
+int x,y,z;
 
 
 #include "contollers.h"
 
 
 
-  
 
 void setup( void ) {
   Serial.begin( 115200 );
-
+  preferences.begin("coordinates", false);
+  x = preferences.getInt("x", 0);
+  y= preferences.getInt("y", 0);
+  z = preferences.getInt("z", 0);
+  
+  
 #if defined(ESP32)
   WiFi.setHostname( hostname );
 #else
@@ -186,8 +191,6 @@ void loop( void ) {
   dnsServer.processNextRequest();
   updatecoordinate(x,y,z);
   static long oldTime = 0;
-  static bool switchi = false;
-
   if ( millis() - oldTime > 500 ) {
     ESPUI.updateControlValue(xlabel,String(x));
     ESPUI.updateControlValue(xlabel2,String(x));
@@ -195,7 +198,10 @@ void loop( void ) {
     ESPUI.updateControlValue(ylabel2,String(y));
     ESPUI.updateControlValue(zlabel,String(z));
     ESPUI.updateControlValue(zlabel2,String(z));
-    
+      
     oldTime = millis();
   }
+    preferences.putInt("x", x);
+    preferences.putInt("y", y);
+    preferences.putInt("z", z);
 }
