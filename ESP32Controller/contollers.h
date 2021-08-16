@@ -23,6 +23,10 @@ void padExample( Control* sender, int value ) {
       {
         Left.state=1;
       }
+      if(sender->id==joystick2)
+      {
+        RotLeft.state=1;
+      }
       Serial.print( "left down" );
       break;
 
@@ -32,6 +36,10 @@ void padExample( Control* sender, int value ) {
       {
         Left.state=0;
       }
+      if(sender->id==joystick2)
+      {
+        RotLeft.state=0;
+      }
       break;
 
     case P_RIGHT_DOWN:
@@ -39,6 +47,10 @@ void padExample( Control* sender, int value ) {
       if(sender->id==joystick1)
       {
         Right.state=1;
+      }
+      if(sender->id==joystick2)
+      {
+        RotRight.state=1;
       }
       break;
 
@@ -48,8 +60,12 @@ void padExample( Control* sender, int value ) {
       {
         Right.state=0;
       }
+      if(sender->id==joystick2)
+      {
+        RotRight.state=0;
+      }
       break;
-
+ 
     case P_FOR_DOWN:
       Serial.print( "for down" );
       if(sender->id==joystick1)

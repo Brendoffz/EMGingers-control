@@ -5,7 +5,7 @@
 #include <Preferences.h>
 
 Preferences preferences;
-
+ 
 
 const byte DNS_PORT = 53;
 IPAddress apIP( 192, 168, 1, 1 );
@@ -32,6 +32,10 @@ uint16_t zlabel;
 uint16_t xlabel2;
 uint16_t ylabel2;
 uint16_t zlabel2;
+uint16_t rotlabel2;
+uint16_t rotlabel;
+
+
 
 float BatteryLevel;
 String Modes[2]={"Joystick","Manual"};
@@ -47,11 +51,19 @@ Buttons Right(6);
 Buttons Centre(6);
 Buttons ZUp(7);
 Buttons ZDown(7);
-
+Buttons RotLeft(7);
+Buttons RotRight(7);
 
 unsigned long previousMillis=0;
 
 int x,y,z;
+int previousx=0;
+int previousy=0;
+int previousz=0;
+float previousa=0.0;
+float rotangle;
+uint16_t coordianteprecision=1;
+float angleprecision=0.5;
 
 
 #include "contollers.h"
@@ -65,6 +77,7 @@ void setup( void ) {
   x = preferences.getInt("x", 0);
   y= preferences.getInt("y", 0);
   z = preferences.getInt("z", 0);
+  rotangle = preferences.getFloat("rotangle", 0);
   
   
 #if defined(ESP32)
@@ -129,6 +142,7 @@ void setup( void ) {
   xlabel2=ESPUI.addControl( ControlType::Label, "X Position:", String(x), ControlColor::Sunflower, tab1 );
   ylabel2=ESPUI.addControl( ControlType::Label, "Y Position:", String(y), ControlColor::Carrot, tab1 );
   zlabel2=ESPUI.addControl( ControlType::Label, "Z Position:", String(z), ControlColor::Alizarin, tab1 );
+  rotlabel2=ESPUI.addControl( ControlType::Label, "Wrist Angle:", String(rotangle), ControlColor::Turquoise, tab1 );
   
   //tab 2
   switch1 = ESPUI.addControl( ControlType::Switcher, "Manual Control", "", ControlColor::Alizarin, tab2, &switchExample );
@@ -143,65 +157,106 @@ void setup( void ) {
   xlabel=ESPUI.addControl( ControlType::Label, "X Position:", String(x), ControlColor::Emerald, tab3 );
   ylabel=ESPUI.addControl( ControlType::Label, "Y Position:", String(y), ControlColor::Peterriver, tab3 );
   zlabel=ESPUI.addControl( ControlType::Label, "Z Position:", String(z), ControlColor::Wetasphalt, tab3 );
+  rotlabel=ESPUI.addControl( ControlType::Label, "Wrist Angle:", String(rotangle), ControlColor::Turquoise, tab3 );
 
   //ESPUI.sliderContinuous = true;
   ESPUI.begin("EMGingers's Robotic Arm");
-  
+   
 }
 
 
-int updatecoordinate(int &x,int &y,int &z)
+int updatecoordinate(int &x,int &y,int &z, float &rotangle)
 {
   
   if (Up.state==1 && previousMillis+Up.interval<millis())
   {
-    y+=1;
+    y+=coordianteprecision;
     previousMillis=millis();
   }
   if (Down.state==1 && previousMillis+Down.interval<millis())
   {
-    y-=1;
+    y-=coordianteprecision;
     previousMillis=millis();
   }
   if (Left.state==1 && previousMillis+Left.interval<millis())
   {
-    x-=1;
+    x-=coordianteprecision;
     previousMillis=millis();
   }
   if (Right.state==1 && previousMillis+Right.interval<millis())
   {
-    x+=1;
+    x+=coordianteprecision;
     previousMillis=millis();
   }
   if (ZUp.state==1 && previousMillis+ZUp.interval<millis())
   {
-    z+=1;
+    z+=coordianteprecision;
     previousMillis=millis();
   }
   if (ZDown.state==1 && previousMillis+ZDown.interval<millis())
   {
-    z-=1;
+    z-=coordianteprecision;
+    previousMillis=millis();
+  }
+  if (RotLeft.state==1 && previousMillis+ZDown.interval<millis())
+  {
+    rotangle-=angleprecision;
+    previousMillis=millis();
+  }
+  if (RotRight.state==1 && previousMillis+ZDown.interval<millis())
+  {
+    rotangle+=angleprecision;
     previousMillis=millis();
   }
   
 }
-
-
-void loop( void ) {
-  dnsServer.processNextRequest();
-  updatecoordinate(x,y,z);
+void UpdateValues()
+{
   static long oldTime = 0;
-  if ( millis() - oldTime > 500 ) {
-    ESPUI.updateControlValue(xlabel,String(x));
-    ESPUI.updateControlValue(xlabel2,String(x));
-    ESPUI.updateControlValue(ylabel,String(y));
-    ESPUI.updateControlValue(ylabel2,String(y));
-    ESPUI.updateControlValue(zlabel,String(z));
-    ESPUI.updateControlValue(zlabel2,String(z));
-      
+  static long oldTime2 = 0;
+  if ( millis() - oldTime > 500) 
+  {
+    if(previousx!=x)
+    {
+      ESPUI.updateControlValue(xlabel,String(x));
+      ESPUI.updateControlValue(xlabel2,String(x));
+      previousx=x;
+    }
+    if(previousy!=y)
+    {
+      ESPUI.updateControlValue(ylabel,String(y));
+      ESPUI.updateControlValue(ylabel2,String(y));
+      previousy=y;
+    }
+
+    if (previousz!=z) 
+    {
+      ESPUI.updateControlValue(zlabel,String(z));
+      ESPUI.updateControlValue(zlabel2,String(z));
+      previousz=z;
+    }
+    if (previousa!=rotangle) 
+    {
+      ESPUI.updateControlValue(rotlabel,String(rotangle));
+      ESPUI.updateControlValue(rotlabel2,String(rotangle));
+      previousa=rotangle;
+    }
     oldTime = millis();
   }
+}
+
+void UpdateSpiffs()
+{
     preferences.putInt("x", x);
     preferences.putInt("y", y);
     preferences.putInt("z", z);
+    preferences.putFloat("rotangle", rotangle);
+}
+void loop( void ) {
+  dnsServer.processNextRequest();
+  updatecoordinate(x,y,z,rotangle);
+  UpdateValues();
+  UpdateSpiffs();
+  
+    
 }
