@@ -193,6 +193,7 @@ def main():
     
     # Initialize the SDK of Myo Armband
     myo.init(r'C:\Users\m\Desktop\Projects\EMGingers-control\Robotic-Hand-Machine-Learning\myo-sdk-win-0.9.0\bin\myo64.dll')
+    # Change as needed
     hub = myo.Hub()
     listener = Listener(number_of_samples)
 
@@ -430,6 +431,7 @@ def main():
         ],axis=0)
     print(conc_array.shape)
     np.savetxt('C:/Users/m/Desktop/Projects/EMGingers-control/Robotic-Hand-Machine-Learning/'+name+'.txt', conc_array, fmt='%i')
+    #change as needed 
     # In this method the EMG data gets trained and verified
 
     Train(conc_array)
@@ -477,6 +479,7 @@ def Train(conc_array):
          
     history = model.fit(train_data, train_labels, epochs=200,validation_data=(validation_data,validation_labels),batch_size=16)
     model.save('C:/Users/m/Desktop/Projects/EMGingers-control/Robotic-Hand-Machine-Learning/'+name+'_realistic_model.h5')
+    #change as needed 
     measure_confusion_matrix(train_data, train_labels,Data='Train',Model=model,HidePlot=0,DL=1)
     measure_confusion_matrix(validation_data, validation_labels,Data='Test',Model=model,HidePlot=0,DL=1)
 
