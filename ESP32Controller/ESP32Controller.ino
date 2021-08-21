@@ -138,7 +138,7 @@ void setup( void ) {
 
   //tab 1 
   joystick1=ESPUI.addControl( ControlType::PadWithCenter, "Joystick", "", ControlColor::Peterriver, tab1, &padExample );
-  joystick2=ESPUI.addControl( ControlType::Pad, "Up Down Only", "", ControlColor::Wetasphalt, tab1, &padExample );
+  joystick2=ESPUI.addControl( ControlType::Pad, "Up Down & Wrist Rotation", "", ControlColor::Wetasphalt, tab1, &padExample );
   xlabel2=ESPUI.addControl( ControlType::Label, "X Position:", String(x), ControlColor::Sunflower, tab1 );
   ylabel2=ESPUI.addControl( ControlType::Label, "Y Position:", String(y), ControlColor::Carrot, tab1 );
   zlabel2=ESPUI.addControl( ControlType::Label, "Z Position:", String(z), ControlColor::Alizarin, tab1 );
