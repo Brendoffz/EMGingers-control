@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <robot
-  name="5DOFArm">
+  name="7DOFArm.SLDASM">
   <link
-    name="Motor1">
+    name="base_link">
     <inertial>
       <origin
-        xyz="-8.3481817953826E-06 -0.0339238955841094 0.0211254794790421"
+        xyz="-8.34818179536046E-06 0.00557610441589056 0.0211254794790421"
         rpy="0 0 0" />
       <mass
         value="0.195948164313462" />
       <inertia
         ixx="0.000268946195921621"
-        ixy="1.37361739472899E-08"
-        ixz="6.73753371510302E-09"
+        ixy="1.37361739472986E-08"
+        ixz="6.7375337150921E-09"
         iyy="5.4818408490663E-05"
-        iyz="-5.13728177875135E-06"
+        iyz="-5.13728177875137E-06"
         izz="0.00028132542818711" />
     </inertial>
     <visual>
@@ -24,7 +24,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://5DOFArm/meshes/Motor1.STL" />
+          filename="package://7DOFArm.SLDASM/meshes/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -38,24 +38,24 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://5DOFArm/meshes/Motor1.STL" />
+          filename="package://7DOFArm.SLDASM/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
   <link
-    name="ConnectingJointA">
+    name="Link2">
     <inertial>
       <origin
-        xyz="-4.80530943714544E-05 0.00152789147324323 0.0199929397826317"
+        xyz="4.80530943714782E-05 -0.00152789147324323 0.0199929397826317"
         rpy="0 0 0" />
       <mass
-        value="0.0553894751386379" />
+        value="0.055389475138638" />
       <inertia
         ixx="1.01366009285935E-05"
-        ixy="1.55656523406104E-10"
-        ixz="8.86193755830673E-10"
-        iyy="1.47698235348991E-05"
-        iyz="-2.02524178578313E-08"
+        ixy="1.55656523407097E-10"
+        ixz="-8.86193755831385E-10"
+        iyy="1.47698235348992E-05"
+        iyz="2.02524178578314E-08"
         izz="1.46211245395671E-05" />
     </inertial>
     <visual>
@@ -64,7 +64,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://5DOFArm/meshes/ConnectingJointA.STL" />
+          filename="package://7DOFArm.SLDASM/meshes/Link2.STL" />
       </geometry>
       <material
         name="">
@@ -78,38 +78,38 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://5DOFArm/meshes/ConnectingJointA.STL" />
+          filename="package://7DOFArm.SLDASM/meshes/Link2.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="ConnectingJoint1"
+    name="Joint0"
     type="continuous">
     <origin
-      xyz="0 0 0.044"
-      rpy="0 0 0.066433" />
+      xyz="0 0.0395 0.044"
+      rpy="0 0 -0.0063255066818594" />
     <parent
-      link="Motor1" />
+      link="base_link" />
     <child
-      link="ConnectingJointA" />
+      link="Link2" />
     <axis
       xyz="0 0 1" />
   </joint>
   <link
-    name="Motor2">
+    name="Link3">
     <inertial>
       <origin
-        xyz="0.000843968187271227 -0.000718332252681683 0.0340099376338211"
+        xyz="1.20829453213733E-14 8.37104158513124E-06 0.101999999999929"
         rpy="0 0 0" />
       <mass
-        value="0.195408857598652" />
+        value="0.390826093219989" />
       <inertia
-        ixx="0.000279745738336469"
-        ixy="1.1202981933852E-07"
-        ixz="-5.68950943432409E-06"
-        iyy="0.00026711095979096"
-        iyz="4.42263757751427E-06"
-        izz="5.46826216554872E-05" />
+        ixx="0.000559492053280385"
+        ixy="5.98929161948754E-16"
+        ixz="1.13812165974477E-05"
+        iyy="0.000534406308901428"
+        iyz="-1.76981104736603E-15"
+        izz="0.000109181488336245" />
     </inertial>
     <visual>
       <origin
@@ -117,7 +117,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://5DOFArm/meshes/Motor2.STL" />
+          filename="package://7DOFArm.SLDASM/meshes/Link3.STL" />
       </geometry>
       <material
         name="">
@@ -131,38 +131,91 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://5DOFArm/meshes/Motor2.STL" />
+          filename="package://7DOFArm.SLDASM/meshes/Link3.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="ConnectingJointA2"
+    name="Joint1"
     type="continuous">
     <origin
-      xyz="0 0.003 0.045"
-      rpy="0 0 0" />
+      xyz="0 -0.0030000000000001 0.0450000000000002"
+      rpy="1.06447174148775 0 0" />
     <parent
-      link="ConnectingJointA" />
+      link="Link2" />
     <child
-      link="Motor2" />
+      link="Link3" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="Link4">
+    <inertial>
+      <origin
+        xyz="-4.80530943716832E-05 0.00147210852675678 0.0250070602173683"
+        rpy="0 0 0" />
+      <mass
+        value="0.055389475138638" />
+      <inertia
+        ixx="1.01366009285935E-05"
+        ixy="-1.55656523405905E-10"
+        ixz="-8.86193755831224E-10"
+        iyy="1.47698235348991E-05"
+        iyz="-2.02524178578319E-08"
+        izz="1.46211245395671E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7DOFArm.SLDASM/meshes/Link4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7DOFArm.SLDASM/meshes/Link4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint2"
+    type="continuous">
+    <origin
+      xyz="0 0 0.204"
+      rpy="-0.982875993996659 0 0" />
+    <parent
+      link="Link3" />
+    <child
+      link="Link4" />
     <axis
       xyz="-1 0 0" />
   </joint>
   <link
-    name="Motor3">
+    name="Link5">
     <inertial>
       <origin
-        xyz="0.00335886157392549 0.137291968696234 0.0950916743893828"
+        xyz="-8.3481816847775E-06 0.0785246875304838 0.050965409786628"
         rpy="0 0 0" />
       <mass
-        value="0.19540885759776" />
+        value="0.391896328746283" />
       <inertia
-        ixx="0.000279745738337905"
-        ixy="6.73751546776728E-09"
-        ixz="-5.69060830572569E-06"
-        iyy="0.00026720299583469"
-        iyz="1.37361711252987E-08"
-        izz="5.45905856134453E-05" />
+        ixx="0.000537892391856797"
+        ixy="-6.9986418036451E-09"
+        ixz="-2.04737067713958E-08"
+        iyy="0.00033614383668443"
+        iyz="-4.93463155737849E-16"
+        izz="0.000336143836684597" />
     </inertial>
     <visual>
       <origin
@@ -170,7 +223,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://5DOFArm/meshes/Motor3.STL" />
+          filename="package://7DOFArm.SLDASM/meshes/Link5.STL" />
       </geometry>
       <material
         name="">
@@ -184,38 +237,38 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://5DOFArm/meshes/Motor3.STL" />
+          filename="package://7DOFArm.SLDASM/meshes/Link5.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Motor2to3Fixed"
-    type="fixed">
+    name="Joint3"
+    type="continuous">
     <origin
-      xyz="-0.0042028 -0.13883 0.072009"
-      rpy="0.020872 0 0" />
+      xyz="0 0.00300000000000002 0.0339337982667513"
+      rpy="0 0 -0.0373408822518601" />
     <parent
-      link="Motor2" />
+      link="Link4" />
     <child
-      link="Motor3" />
+      link="Link5" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 -1" />
   </joint>
   <link
-    name="ConnectingJointB">
+    name="Link6">
     <inertial>
       <origin
-        xyz="0.00425088285560192 -0.00160430277859039 0.0249989275134803"
+        xyz="4.80530943693545E-05 0.0259429985826935 0.00152789147324323"
         rpy="0 0 0" />
       <mass
         value="0.0553894751386379" />
       <inertia
         ixx="1.01366009285935E-05"
-        ixy="-1.60339742804096E-10"
-        ixz="8.85358398061052E-10"
-        iyy="1.47696052281304E-05"
-        iyz="2.10374610736327E-08"
-        izz="1.46213428463358E-05" />
+        ixy="-8.86193755830644E-10"
+        ixz="-1.55656523403457E-10"
+        iyy="1.46211245395671E-05"
+        iyz="-2.02524178578316E-08"
+        izz="1.47698235348991E-05" />
     </inertial>
     <visual>
       <origin
@@ -223,7 +276,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://5DOFArm/meshes/ConnectingJointB.STL" />
+          filename="package://7DOFArm.SLDASM/meshes/Link6.STL" />
       </geometry>
       <material
         name="">
@@ -237,179 +290,126 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://5DOFArm/meshes/ConnectingJointB.STL" />
+          filename="package://7DOFArm.SLDASM/meshes/Link6.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="ConnectingJointB1"
+    name="Joint4"
     type="continuous">
     <origin
-      xyz="0 0.1373 0.12911"
+      xyz="0 0.140049941199938 0.0340662017332484"
+      rpy="0 0.0178678459046033 0" />
+    <parent
+      link="Link5" />
+    <child
+      link="Link6" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="Link7">
+    <inertial>
+      <origin
+        xyz="0.000917901933196848 0.0786320562659005 0.0169893200790058"
+        rpy="0 0 0" />
+      <mass
+        value="0.391361210934714" />
+      <inertia
+        ixx="0.000548692222565865"
+        ixy="-5.68387076435446E-06"
+        ixz="-6.99864073104178E-09"
+        iyy="0.000335916172357848"
+        iyz="5.15101791261378E-06"
+        izz="0.000322021562938926" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7DOFArm.SLDASM/meshes/Link7.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7DOFArm.SLDASM/meshes/Link7.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint5"
+    type="continuous">
+    <origin
+      xyz="0 0.0509500588000616 0.00300000000000006"
+      rpy="-0.00877434456653207 0 0" />
+    <parent
+      link="Link6" />
+    <child
+      link="Link7" />
+    <axis
+      xyz="-1 0 0" />
+  </joint>
+  <link
+    name="EndEffector">
+    <inertial>
+      <origin
+        xyz="-0.000652115884172889 0.16606767934612 0.00179570680438307"
+        rpy="0 0 0" />
+      <mass
+        value="0.533035537217521" />
+      <inertia
+        ixx="0.000828026554879931"
+        ixy="6.06699838054548E-07"
+        ixz="-1.92693806277969E-05"
+        iyy="0.000472118631073817"
+        iyz="-1.69711560363912E-06"
+        izz="0.000873966442795746" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7DOFArm.SLDASM/meshes/EndEffector.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://7DOFArm.SLDASM/meshes/EndEffector.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint6"
+    type="continuous">
+    <origin
+      xyz="0.000999999999997949 0.124829928909805 0"
       rpy="0 0 0" />
     <parent
-      link="Motor3" />
+      link="Link7" />
     <child
-      link="ConnectingJointB" />
-    <axis
-      xyz="1 0 0" />
-  </joint>
-  <link
-    name="Motor4">
-    <inertial>
-      <origin
-        xyz="-0.00113218214818281 0.0339049985250659 0.0348579473727495"
-        rpy="0 0 0" />
-      <mass
-        value="0.195948164366842" />
-      <inertia
-        ixx="0.000268712104683053"
-        ixy="7.0760744892282E-06"
-        ixz="1.63455208337381E-07"
-        iyy="5.50524997357663E-05"
-        iyz="-5.13468517837509E-06"
-        izz="0.000281325428190112" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://5DOFArm/meshes/Motor4.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://5DOFArm/meshes/Motor4.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="ConnectingJointB2"
-    type="continuous">
-    <origin
-      xyz="0.0042028 -0.0031745 0.033"
-      rpy="0.0052871 0 0" />
-    <parent
-      link="ConnectingJointB" />
-    <child
-      link="Motor4" />
-    <axis
-      xyz="0 0 -1" />
-  </joint>
-  <link
-    name="Motor5">
-    <inertial>
-      <origin
-        xyz="0.102740842268571 0.0585298349975694 -0.039124811870007"
-        rpy="0 0 0" />
-      <mass
-        value="0.195948164492237" />
-      <inertia
-        ixx="0.000268946195940572"
-        ixy="6.73752126133203E-09"
-        ixz="-1.37361629210317E-08"
-        iyy="0.000281325428211118"
-        iyz="5.13728178679393E-06"
-        izz="5.48184085161642E-05" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://5DOFArm/meshes/Motor5.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://5DOFArm/meshes/Motor5.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="Motor4to5"
-    type="fixed">
-    <origin
-      xyz="-0.10483 0.061156 0.10803"
-      rpy="0 0 0.033134" />
-    <parent
-      link="Motor4" />
-    <child
-      link="Motor5" />
-    <axis
-      xyz="0 0 0" />
-  </joint>
-  <link
-    name="Grapper">
-    <inertial>
-      <origin
-        xyz="1.20240172973851E-06 0.145165293943956 0.00191044941687646"
-        rpy="0 0 0" />
-      <mass
-        value="0.533035535630649" />
-      <inertia
-        ixx="0.000821014385608279"
-        ixy="-1.01680436314611E-08"
-        ixz="-1.9454749724721E-09"
-        iyy="0.000472118630732692"
-        iyz="-1.80227099416518E-06"
-        izz="0.000880978619783394" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://5DOFArm/meshes/Grapper.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://5DOFArm/meshes/Grapper.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="Motor5toGrapper"
-    type="continuous">
-    <origin
-      xyz="0.10275 0.081137 -0.073049"
-      rpy="0 -0.21955 0" />
-    <parent
-      link="Motor5" />
-    <child
-      link="Grapper" />
+      link="EndEffector" />
     <axis
       xyz="0 -1 0" />
   </joint>

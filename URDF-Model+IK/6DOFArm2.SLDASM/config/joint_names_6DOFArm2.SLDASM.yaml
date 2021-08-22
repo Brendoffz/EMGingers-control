@@ -1,0 +1,1 @@
+controller_joint_names: ['', 'Motor1toConnectingJoint1', 'ConnectingJoint1toMotor2', 'Motor3toConnectingJoint2', 'Motor5toWristJoint', 'WristToEndEffector', ]
