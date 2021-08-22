@@ -3,11 +3,11 @@ import time
 import pybullet_data
 import os
 p.connect(p.GUI)
-coordinate=[2,1,3]
+coordinate=[.2,.2,.2]
 
 p.loadURDF(os.path.join(pybullet_data.getDataPath(), "plane.urdf"), 0, 0, 0)
 orn = p.getQuaternionFromEuler([0, 0, 0])
-arm=p.loadURDF("Arm2.urdf", useFixedBase=1)
+arm=p.loadURDF("5DOFArm.urdf", useFixedBase=1)
 numJoints = p.getNumJoints(arm)
 for i in range(numJoints):
     print(p.getJointInfo(arm,i))
@@ -15,7 +15,7 @@ for i in range(numJoints):
 p.setGravity(0, 0, 0)
 
 
-angle1, angle2, angle3, angle4=p.calculateInverseKinematics(arm,7,coordinate)
+angle1, angle2, angle3, angle4, angle5=p.calculateInverseKinematics(arm,6,coordinate)
 p.setJointMotorControl2(bodyIndex=arm,
                         jointIndex=0,
                         controlMode=p.POSITION_CONTROL,
@@ -23,23 +23,32 @@ p.setJointMotorControl2(bodyIndex=arm,
                         force=20)
 
 p.setJointMotorControl2(bodyIndex=arm,
-                        jointIndex=2,
+                        jointIndex=1,
                         controlMode=p.POSITION_CONTROL,
                         targetPosition=angle2,
                         force=20)
+
 p.setJointMotorControl2(bodyIndex=arm,
-                        jointIndex=5,
+                        jointIndex=3,
                         controlMode=p.POSITION_CONTROL,
                         targetPosition=angle3,
                         force=20)
 
+
 p.setJointMotorControl2(bodyIndex=arm,
-                        jointIndex=7,
+                        jointIndex=4,
                         controlMode=p.POSITION_CONTROL,
                         targetPosition=angle4,
                         force=20)
+
+p.setJointMotorControl2(bodyIndex=arm,
+                        jointIndex=6,
+                        controlMode=p.POSITION_CONTROL,
+                        targetPosition=angle5,
+                        force=20)
+
 while True:
 
     p.stepSimulation()
-    print(p.getLinkState(arm,7,computeForwardKinematics=1))
-    #time.sleep(1. / 240000.)
+    print(p.getLinkState(arm,6,computeForwardKinematics=1))
+    time.sleep(1. / 2400.)
