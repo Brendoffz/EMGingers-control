@@ -1,7 +1,7 @@
 #Setting up
 from __future__ import print_function
 from collections import deque
-
+from threading import Lock, Thread
 import seaborn as sb
 
 import numpy as np
@@ -125,19 +125,10 @@ class Listener(myo.DeviceListener):
 
 def main():
     unrecognized_training_set = np.zeros((number_of_channels,number_of_samples))
-    index_open_training_set = np.zeros((number_of_channels,number_of_samples))
-    middle_open_training_set = np.zeros((number_of_channels,number_of_samples))
-    thumb_open_training_set = np.zeros((number_of_channels,number_of_samples))
-    ring_open_training_set = np.zeros((number_of_channels,number_of_samples))
-    pinky_open_training_set = np.zeros((number_of_channels,number_of_samples))
-    two_open_training_set = np.zeros((number_of_channels,number_of_samples))
-    three_open_training_set = np.zeros((number_of_channels,number_of_samples))
-    four_open_training_set = np.zeros((number_of_channels,number_of_samples))
-    five_open_training_set = np.zeros((number_of_channels,number_of_samples))
-    all_fingers_closed_training_set = np.zeros((number_of_channels,number_of_samples))
-    grasp_training_set = np.zeros((number_of_channels,number_of_samples))
-    pick_training_set = np.zeros((number_of_channels,number_of_samples))
-    relax_training_set = np.zeros((number_of_channels,number_of_samples))
+    gesture1_training_set = np.zeros((number_of_channels,number_of_samples))
+    gesture2_training_set = np.zeros((number_of_channels,number_of_samples))
+    gesture3_training_set = np.zeros((number_of_channels,number_of_samples))
+    gesture4_training_set = np.zeros((number_of_channels,number_of_samples))
     verification_set = np.zeros((number_of_channels,number_of_samples))
     training_set = np.zeros((number_of_channels,number_of_samples))
     # This function kills Myo Connect.exe and restarts it to make sure it is running
@@ -162,10 +153,10 @@ def main():
         try:
             hub = myo.Hub()
             listener = Listener(number_of_samples)
-            input("Open THUMB ")    
+            input("Do Gesture 1")    
             hub.run(listener.on_event,20000)
-            thumb_open_training_set = np.array((data_array[0]))
-            print(thumb_open_training_set.shape)
+            gesture1_training_set = np.array((data_array[0]))
+            print(gesture1_training_set.shape)
             data_array.clear()
             break
         except:
@@ -179,12 +170,12 @@ def main():
     ################## HERE WE GET TRAINING DATA FOR INDEX FINGER OPEN ########
     while True:
         try:
-            input("Open index finger")
             hub = myo.Hub()
             listener = Listener(number_of_samples)
+            input("Do Gesture 2")    
             hub.run(listener.on_event,20000)
-            # Here we send the received number of samples making them a list of 1000 rows 8 columns 
-            index_open_training_set = np.array((data_array[0]))            
+            gesture2_training_set = np.array((data_array[0]))
+            print(gesture2_training_set.shape)
             data_array.clear()
             break
         except:
@@ -196,11 +187,12 @@ def main():
     ################## HERE WE GET TRAINING DATA FOR MIDDLE FINGER OPEN #################
     while True:
         try:
-            input("Open MIDDLE finger")
             hub = myo.Hub()
             listener = Listener(number_of_samples)
+            input("Do Gesture 3")    
             hub.run(listener.on_event,20000)
-            middle_open_training_set = np.array((data_array[0]))
+            gesture3_training_set = np.array((data_array[0]))
+            print(gesture3_training_set.shape)
             data_array.clear()
             break
         except:
@@ -214,11 +206,12 @@ def main():
     ################## HERE WE GET TRAINING DATA FOR RING FINGER OPEN ##########
     while True:
         try:
-            input("Open Ring finger")
             hub = myo.Hub()
             listener = Listener(number_of_samples)
+            input("Do Gesture 4")    
             hub.run(listener.on_event,20000)
-            ring_open_training_set = np.array((data_array[0]))
+            gesture4_training_set = np.array((data_array[0]))
+            print(gesture4_training_set.shape)
             data_array.clear()
             break
         except:
@@ -227,165 +220,14 @@ def main():
             # Wait for 3 seconds until Myo Connect.exe starts
             time.sleep(3)
 
-    ################### HERE WE GET TRAINING DATA FOR PINKY FINGER OPEN ####################
-    while True:
-        try:
-            input("Open Pinky finger")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
-            pinky_open_training_set = np.array((data_array[0]))
-            data_array.clear()
-            break
-        except:
-            while(restart_process()!=True):
-                pass
-            # Wait for 3 seconds until Myo Connect.exe starts
-            time.sleep(3)
 
-    ################### HERE WE GET TRAINING DATA FOR TWO FINGER OPEN ####################
-    while True:
-        try:
-            
-            input("Open Two fingers")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
-            two_open_training_set = np.array((data_array[0]))
-            data_array.clear()
-            break
-        except:
-            while(restart_process()!=True):
-                pass
-            # Wait for 3 seconds until Myo Connect.exe starts
-            time.sleep(3)
 
-    ################### HERE WE GET TRAINING DATA FOR THREE FINGER OPEN ####################
-    while True:
-        try:
-            input("Open Three fingers")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
-            three_open_training_set = np.array((data_array[0]))
-            data_array.clear()
-            break
-        except:
-            while(restart_process()!=True):
-                pass
-            # Wait for 3 seconds until Myo Connect.exe starts
-            time.sleep(3)
-
-    ################### HERE WE GET TRAINING DATA FOR THREE FINGER OPEN ####################
-    while True:
-        try:            
-            input("Open Four fingers")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
-            four_open_training_set = np.array((data_array[0]))
-            data_array.clear()
-            break
-        except:
-            while(restart_process()!=True):
-                pass
-            # Wait for 3 seconds until Myo Connect.exe starts
-            time.sleep(3)
-
-    ################### HERE WE GET TRAINING DATA FOR FIVE FINGER OPEN ####################
-    while True:
-        try:
-            input("Open Five fingers")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
-            five_open_training_set = np.array((data_array[0]))
-            data_array.clear()
-            break
-        except:
-            while(restart_process()!=True):
-                pass
-            # Wait for 3 seconds until Myo Connect.exe starts
-            time.sleep(3)
-
-    ################### HERE WE GET TRAINING DATA FOR ALL FINGERS CLOSED ####################
-    while True:
-        try:
-            input("Make all fingers closed")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
-            all_fingers_closed_training_set = np.array((data_array[0]))
-            data_array.clear()
-            break
-        except:
-            while(restart_process()!=True):
-                pass
-            # Wait for 3 seconds until Myo Connect.exe starts
-            time.sleep(3)
-
-    ################### HERE WE GET TRAINING DATA FOR GRASP MOVEMENT ####################
-    while True:
-        try:
-            input("Make Grasp movement")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
-            grasp_training_set = np.array((data_array[0]))
-            data_array.clear()
-            break
-        except:
-            while(restart_process()!=True):
-                pass
-            # Wait for 3 seconds until Myo Connect.exe starts
-            time.sleep(3)
-
-    ################### HERE WE GET TRAINING DATA FOR PICK MOVEMENT ####################
-    while True:
-        try:
-            input("Make Pick movement")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
-            pick_training_set = np.array((data_array[0]))
-            data_array.clear()
-            break
-        except:
-            while(restart_process()!=True):
-                pass
-            # Wait for 3 seconds until Myo Connect.exe starts
-            time.sleep(3)        
-            
-    ################### HERE WE GET TRAINING DATA FOR RELAX MOVEMENT ####################
-    while True:
-        try:
-            input("Make Relax movement")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
-            relax_training_set = np.array((data_array[0]))
-            data_array.clear()
-            break
-        except:
-            while(restart_process()!=True):
-                pass
-            # Wait for 3 seconds until Myo Connect.exe starts
-            time.sleep(3)           
     # Here we stack all the data row wise
     conc_array = np.concatenate([
-            thumb_open_training_set,
-            index_open_training_set,
-            middle_open_training_set,
-            ring_open_training_set,
-            pinky_open_training_set,
-            two_open_training_set,
-            three_open_training_set,
-            four_open_training_set,
-            five_open_training_set,
-            all_fingers_closed_training_set,
-            grasp_training_set,
-            pick_training_set,
-            relax_training_set,
+            gesture1_training_set,
+            gesture2_training_set,
+            gesture3_training_set,
+            gesture4_training_set
         ],axis=0)
     print(conc_array.shape)
     np.savetxt('C:/Users/m/Desktop/Projects/EMGingers-control/Robotic-Hand-Machine-Learning/'+name+'.txt', conc_array, fmt='%i')
@@ -398,8 +240,7 @@ def main():
 # This method is responsible for training EMG data
 def Train(conc_array):
     global training_set,gestures
-    global index_open_training_set, middle_open_training_set, thumb_open_training_set, ring_open_training_set, pinky_open_training_set, verification_set
-    global two_open_training_set, three_open_training_set, four_open_training_set,five_open_training_set,all_fingers_closed_training_set,grasp_training_set,pick_training_set
+    global gesture1_training_set, gesture2_training_set, gesture3_training_set, gesture4_training_set
     global number_of_samples,size,number_of_channels
     labels=[]
     print(conc_array.size)
@@ -438,6 +279,7 @@ def Train(conc_array):
     history = model.fit(train_data, train_labels, epochs=200,validation_data=(validation_data,validation_labels),batch_size=16)
     model.save('C:/Users/m/Desktop/Projects/EMGingers-control/Robotic-Hand-Machine-Learning/'+name+'_realistic_model.h5')
     #change as needed 
+
 
     
     
