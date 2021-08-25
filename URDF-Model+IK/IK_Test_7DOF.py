@@ -1,18 +1,19 @@
 import pybullet as p
 import time
-
+import serial
 coordinate=[.150,.120,0.000]
-
+rawdata=[]
 file_name = "7DOFArm.urdf"
 p.connect(p.GUI)
 arm = p.loadURDF(file_name, useFixedBase=1)
 
+esp=serial.Serial('COM16',115200,timeout=.1)
 
 numJoints = p.getNumJoints(arm)
 for i in range(numJoints):
     print(p.getJointInfo(arm,i))
     
-
+    
 angle1, angle2, angle3, angle4, angle5,angle6, angle7,=p.calculateInverseKinematics(arm,5,coordinate)
 p.setJointMotorControl2(bodyIndex=arm,
                         jointIndex=0,
@@ -58,8 +59,22 @@ p.setJointMotorControl2(bodyIndex=arm,
                         force=20)
 
 print(angle1, angle2, angle3, angle4, angle5)
+previoustime=0
+interval=0.1
+previoustime2=0
+interval2=0.5
 while True:
+    
+    if (time.time()>previoustime+interval):
+        p.stepSimulation()
+        previoustime=time.time()
+        #print(p.getLinkState(arm,5,computeForwardKinematics=1))
+        
 
-    p.stepSimulation()
-    print(p.getLinkState(arm,5,computeForwardKinematics=1))
-    time.sleep(0.1)
+    if(time.time()>previoustime2+interval2): 
+         previoustime2=time.time()       
+         coordinate=str(esp.readline().strip().decode("utf-8")).split(',')
+         print(coordinate)
+
+    
+    
