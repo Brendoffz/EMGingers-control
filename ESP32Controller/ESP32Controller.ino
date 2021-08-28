@@ -88,7 +88,6 @@ void setup( void ) {
 
   // try to connect to existing network
   WiFi.begin( ssid, password );
-  Serial.print( "\n\nTry to connect to existing network" );
 
   {
     uint8_t timeout = 10;
@@ -96,13 +95,11 @@ void setup( void ) {
     // Wait for connection, 5s timeout
     do {
       delay( 500 );
-      Serial.print( "." );
       timeout--;
     } while ( timeout && WiFi.status() != WL_CONNECTED );
 
     // not connected -> create hotspot
     if ( WiFi.status() != WL_CONNECTED ) {
-      Serial.print( "\n\nCreating hotspot" );
 
       WiFi.mode( WIFI_AP );
       WiFi.softAPConfig( apIP, apIP, IPAddress( 255, 255, 255, 0 ) );
@@ -112,7 +109,6 @@ void setup( void ) {
 
       do {
         delay( 500 );
-        Serial.print( "." );
         timeout--;
       } while ( timeout );
     }
@@ -121,11 +117,6 @@ void setup( void ) {
   
   dnsServer.start( DNS_PORT, "*", apIP );
 
-  Serial.println( "\n\nWiFi parameters:" );
-  Serial.print( "Mode: " );
-  Serial.println( WiFi.getMode() == WIFI_AP ? "Station" : "Client" );
-  Serial.print( "IP address: " );
-  Serial.println( WiFi.getMode() == WIFI_AP ? WiFi.softAPIP() : WiFi.localIP() );
 
   uint16_t tab1 = ESPUI.addControl( ControlType::Tab, "Settings 1", "Joystick" );
   uint16_t tab2 = ESPUI.addControl( ControlType::Tab, "Settings 2", "Manual Control"  );
@@ -221,12 +212,14 @@ void UpdateValues()
       ESPUI.updateControlValue(xlabel,String(x));
       ESPUI.updateControlValue(xlabel2,String(x));
       previousx=x;
+      Serial.println(String(x)+','+String(y)+','+String(z));
     }
     if(previousy!=y)
     {
       ESPUI.updateControlValue(ylabel,String(y));
       ESPUI.updateControlValue(ylabel2,String(y));
       previousy=y;
+      Serial.println(String(x)+','+String(y)+','+String(z));
     }
 
     if (previousz!=z) 
@@ -234,14 +227,17 @@ void UpdateValues()
       ESPUI.updateControlValue(zlabel,String(z));
       ESPUI.updateControlValue(zlabel2,String(z));
       previousz=z;
+      Serial.println(String(x)+','+String(y)+','+String(z));
     }
     if (previousa!=rotangle) 
     {
       ESPUI.updateControlValue(rotlabel,String(rotangle));
       ESPUI.updateControlValue(rotlabel2,String(rotangle));
       previousa=rotangle;
+      Serial.println(String(x)+','+String(y)+','+String(z));
     }
     oldTime = millis();
+    Serial.println(String(x)+','+String(y)+','+String(z));
   }
 }
 
@@ -252,11 +248,12 @@ void UpdateSpiffs()
     preferences.putInt("z", z);
     preferences.putFloat("rotangle", rotangle);
 }
+
+
 void loop( void ) {
   dnsServer.processNextRequest();
   updatecoordinate(x,y,z,rotangle);
   UpdateValues();
   UpdateSpiffs();
   
-    
 }
