@@ -14,7 +14,7 @@ for i in range(numJoints):
     print(p.getJointInfo(arm,i))
     
     
-angle1, angle2, angle3, angle4, angle5,angle6, angle7,=p.calculateInverseKinematics(arm,5,coordinate)
+angle1, angle2, angle3, angle4, angle5,angle6=p.calculateInverseKinematics(arm,5,coordinate)
 p.setJointMotorControl2(bodyIndex=arm,
                         jointIndex=0,
                         controlMode=p.POSITION_CONTROL,
