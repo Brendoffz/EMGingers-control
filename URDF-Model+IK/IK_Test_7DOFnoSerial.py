@@ -1,10 +1,11 @@
 import pybullet as p
 import time
 coordinate=[.2,.2,0.3]
+coordinate3=[.5,.8,0.0]
 rawdata=[]
 file_name = "7DOFArm.urdf"
 p.connect(p.GUI)
-arm = p.loadURDF(file_name, useFixedBase=1)
+arm = p.loadURDF(file_name, useFixedBase=1,flags=p.URDF_USE_SELF_COLLISION)
 
 
 numJoints = p.getNumJoints(arm)
@@ -58,7 +59,50 @@ p.setJointMotorControl2(bodyIndex=arm,
                         targetPosition=angles[6],
                         force=20)
 
+angles=p.calculateInverseKinematics(arm,5,coordinate)
 
+p.setJointMotorControl2(bodyIndex=arm,
+                        jointIndex=0,
+                        controlMode=p.POSITION_CONTROL,
+                        targetPosition=angles[0],
+                        force=20)
+
+p.setJointMotorControl2(bodyIndex=arm,
+                        jointIndex=1,
+                        controlMode=p.POSITION_CONTROL,
+                        targetPosition=angles[1],
+                        force=20)
+
+p.setJointMotorControl2(bodyIndex=arm,
+                        jointIndex=2,
+                        controlMode=p.POSITION_CONTROL,
+                        targetPosition=angles[2],
+                        force=20)
+
+p.setJointMotorControl2(bodyIndex=arm,
+                        jointIndex=3,
+                        controlMode=p.POSITION_CONTROL,
+                        targetPosition=angles[3],
+                        force=20)
+
+
+p.setJointMotorControl2(bodyIndex=arm,
+                        jointIndex=4,
+                        controlMode=p.POSITION_CONTROL,
+                        targetPosition=angles[4],
+                        force=20)
+
+p.setJointMotorControl2(bodyIndex=arm,
+                        jointIndex=5,
+                        controlMode=p.POSITION_CONTROL,
+                        targetPosition=angles[5],
+                        force=20)
+
+p.setJointMotorControl2(bodyIndex=arm,
+                        jointIndex=6,
+                        controlMode=p.POSITION_CONTROL,
+                        targetPosition=angles[6],
+                        force=20)
 
 previoustime=0
 interval=0.1
