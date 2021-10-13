@@ -1,5 +1,37 @@
-void slider( Control* sender, int type ) {
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x42);
+#define SERVOMIN  150 // This is the 'minimum' pulse length count (out of 4096)
+#define SERVOMAX  600 // This is the 'maximum' pulse length count (out of 4096)
+#define USMIN  600 // This is the rounded 'minimum' microsecond length based on the minimum pulse of 150
+#define USMAX  2400 // This is the rounded 'maximum' microsecond length based on the maximum pulse of 600
+#define SERVO_FREQ 50 // Analog servos run at ~50 Hz updates
 
+void slider( Control* sender, int type ) {
+  if(sender->id==13&&modes)
+  {
+    value1=sender->value.toFloat();
+  }
+  if(sender->id==14&&modes)
+  {
+    value2=sender->value.toFloat();
+  }
+  if(sender->id==15&&modes)
+  {
+    value3=sender->value.toFloat();
+  }
+  if(sender->id==16&&modes)
+  {
+    value4=sender->value.toFloat();
+  }
+  if(sender->id==17&&modes)
+  {
+    value5=sender->value.toFloat();
+  }
+  if(sender->id==18&&modes)
+  {
+    value6=sender->value.toFloat();
+  }
 }
 void buttonCallback( Control* sender, int type ) {
   switch ( type ) {

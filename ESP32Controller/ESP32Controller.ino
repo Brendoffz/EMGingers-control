@@ -2,7 +2,9 @@
 #include <ESPUI.h>
 #include "secrets.h"
 #include "buttons.h"
+//#include "servocontrol.h"
 #include <Preferences.h>
+//6.10.1JSON
 
 Preferences preferences;
  
@@ -40,6 +42,7 @@ uint16_t rotlabel;
 float BatteryLevel;
 String Modes[2]={"Joystick","Manual"};
 bool modes=0;
+float value1,value2,value3,value4,value5,value6;
 
 
 
@@ -75,11 +78,12 @@ void setup( void ) {
   Serial.begin( 115200 );
   preferences.begin("coordinates", false);
   x = preferences.getInt("x", 0);
+  Serial.println(x);
   y= preferences.getInt("y", 0);
   z = preferences.getInt("z", 0);
   rotangle = preferences.getFloat("rotangle", 0);
-  
-  
+  pwm.begin();
+  pwm.setPWMFreq(SERVO_FREQ);
 #if defined(ESP32)
   WiFi.setHostname( hostname );
 #else
@@ -90,6 +94,7 @@ void setup( void ) {
   WiFi.begin( ssid, password );
 
   {
+    Serial.println("WiFi Start");
     uint8_t timeout = 10;
 
     // Wait for connection, 5s timeout
@@ -113,9 +118,14 @@ void setup( void ) {
       } while ( timeout );
     }
   }
-  
+  Serial.println("WiFi Connected");
   
   dnsServer.start( DNS_PORT, "*", apIP );
+  Serial.println( "\n\nWiFi parameters:" );
+  Serial.print( "Mode: " );
+  Serial.println( WiFi.getMode() == WIFI_AP ? "Station" : "Client" );
+  Serial.print( "IP address: " );
+  Serial.println( WiFi.getMode() == WIFI_AP ? WiFi.softAPIP() : WiFi.localIP() );
 
 
   uint16_t tab1 = ESPUI.addControl( ControlType::Tab, "Settings 1", "Joystick" );
@@ -151,12 +161,13 @@ void setup( void ) {
   rotlabel=ESPUI.addControl( ControlType::Label, "Wrist Angle:", String(rotangle), ControlColor::Turquoise, tab3 );
 
   //ESPUI.sliderContinuous = true;
+  Serial.print( "Here" );
   ESPUI.begin("EMGingers's Robotic Arm");
-   
+  Serial.print( "Here" );
 }
 
 
-int updatecoordinate(int &x,int &y,int &z, float &rotangle)
+void updatecoordinate(int &x,int &y,int &z, float &rotangle)
 {
   
   if (Up.state==1 && previousMillis+Up.interval<millis())
@@ -239,6 +250,7 @@ void UpdateValues()
     oldTime = millis();
     Serial.println(String(x)+','+String(y)+','+String(z));
   }
+  
 }
 
 void UpdateSpiffs()
@@ -248,12 +260,28 @@ void UpdateSpiffs()
     preferences.putInt("z", z);
     preferences.putFloat("rotangle", rotangle);
 }
+unsigned long previousMillis2=0;
+const long interval2 = 500; 
 
-
-void loop( void ) {
+void controlmotor()
+{
+  if (millis() - previousMillis2 >= interval2) 
+  {
+      previousMillis2 = millis();
+      pwm.writeMicroseconds(0,map(value1,0,180,771,2193));//771-2193 for MG996R
+      pwm.writeMicroseconds(1,map(value2,0,180,771,2193));
+      pwm.writeMicroseconds(2,map(value3,0,180,771,2193));
+      pwm.writeMicroseconds(3,map(value4,0,180,1000,3400)); //1000-3400 for SG90
+      pwm.writeMicroseconds(4,map(value5,0,180,1000,3400));
+      pwm.writeMicroseconds(5,map(value6,0,180,1000,3400));
+}
+}
+void loop( void ) 
+{
   dnsServer.processNextRequest();
   updatecoordinate(x,y,z,rotangle);
   UpdateValues();
   UpdateSpiffs();
+  controlmotor();
   
 }

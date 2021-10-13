@@ -21,8 +21,8 @@ while 1:
         boundingBox1 = hand1["bbox"] 
         centerPoint1 = hand1["center"] 
         centerPoint1 = hand1["type"] 
-        #fingers = fingerDetector.fingersUp(hand1)
-        #print(fingers)
+        fingers = fingerDetector.fingersUp(hand1)
+        print(fingers)
     
     cv.imshow("Hand Video",frame)
     key = cv.waitKey(500)
