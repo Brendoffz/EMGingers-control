@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="RoboticArmFinalURDF.SLDASM">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-7.68725238451815E-09 0.0223035726629275 -0.000117196159259872"
+        rpy="0 0 0" />
+      <mass
+        value="0.0960374647687131" />
+      <inertia
+        ixx="0.000137660900428952"
+        ixy="-4.47337774478822E-12"
+        ixz="6.84507669834107E-11"
+        iyy="0.000207983638444363"
+        iyz="-3.91396755618807E-06"
+        izz="0.000127992374265441" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://RoboticArmFinalURDF.SLDASM/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://RoboticArmFinalURDF.SLDASM/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Link_1">
+    <inertial>
+      <origin
+        xyz="-0.00643461830391594 0.0172894164537123 -0.00137199474310693"
+        rpy="0 0 0" />
+      <mass
+        value="0.0680383193949222" />
+      <inertia
+        ixx="5.81331983559237E-05"
+        ixy="5.17766059437661E-06"
+        ixz="-6.41757849795515E-07"
+        iyy="5.46763949062911E-05"
+        iyz="6.24275294196728E-06"
+        izz="4.50177342282271E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://RoboticArmFinalURDF.SLDASM/meshes/Link_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://RoboticArmFinalURDF.SLDASM/meshes/Link_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint0"
+    type="continuous">
+    <origin
+      xyz="0 0 0.057"
+      rpy="1.5707963267949 0 -1.70008950174165" />
+    <parent
+      link="base_link" />
+    <child
+      link="Link_1" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="Link_2">
+    <inertial>
+      <origin
+        xyz="-0.000129917894307566 0.0585889748371736 0.00596910140378169"
+        rpy="0 0 0" />
+      <mass
+        value="0.0643952062577739" />
+      <inertia
+        ixx="0.00010704064713953"
+        ixy="-8.66170766192282E-10"
+        ixz="2.17042389149384E-10"
+        iyy="9.11014232874422E-06"
+        iyz="2.40320563064038E-07"
+        izz="0.000111847051750703" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://RoboticArmFinalURDF.SLDASM/meshes/Link_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0.254901960784314 0.92156862745098 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://RoboticArmFinalURDF.SLDASM/meshes/Link_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint1"
+    type="continuous">
+    <origin
+      xyz="0 0.040276480175933 -0.0139185063019886"
+      rpy="1.5707963267949 0.279843773254232 1.5707963267949" />
+    <parent
+      link="Link_1" />
+    <child
+      link="Link_2" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="Link_3">
+    <inertial>
+      <origin
+        xyz="2.78406776982598E-05 0.0392852876995278 0.0124088574191166"
+        rpy="0 0 0" />
+      <mass
+        value="0.0502682622408893" />
+      <inertia
+        ixx="5.46008164037692E-05"
+        ixy="-6.95726497999282E-08"
+        ixz="-4.92696357506361E-11"
+        iyy="9.28677666246469E-06"
+        iyz="-2.87528254238966E-07"
+        izz="5.81489570583603E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://RoboticArmFinalURDF.SLDASM/meshes/Link_3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://RoboticArmFinalURDF.SLDASM/meshes/Link_3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint2"
+    type="continuous">
+    <origin
+      xyz="0 0.12 0"
+      rpy="3.14159265358979 0 1.04149559388931" />
+    <parent
+      link="Link_2" />
+    <child
+      link="Link_3" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="Link_4">
+    <inertial>
+      <origin
+        xyz="0.00504601384504058 0.0369133443513942 -0.00526460478781959"
+        rpy="0 0 0" />
+      <mass
+        value="0.0164994774371153" />
+      <inertia
+        ixx="3.91220064665289E-06"
+        ixy="1.15332740113581E-08"
+        ixz="-3.99351888751122E-09"
+        iyy="2.61247401048814E-06"
+        iyz="5.75784685648565E-07"
+        izz="5.02236310727864E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://RoboticArmFinalURDF.SLDASM/meshes/Link_4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://RoboticArmFinalURDF.SLDASM/meshes/Link_4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint3"
+    type="continuous">
+    <origin
+      xyz="-0.00530000000000022 0.0725277706940939 0.0125000000000004"
+      rpy="0 0 0" />
+    <parent
+      link="Link_3" />
+    <child
+      link="Link_4" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="End_effector">
+    <inertial>
+      <origin
+        xyz="-0.0106496669276151 0.00865268061193392 0.0489386267179806"
+        rpy="0 0 0" />
+      <mass
+        value="0.0420474406625632" />
+      <inertia
+        ixx="1.18088861549434E-05"
+        ixy="-3.87366189241723E-07"
+        ixz="-1.38624153727327E-06"
+        iyy="1.32292970089482E-05"
+        iyz="-1.36413004494688E-06"
+        izz="3.99155771372674E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://RoboticArmFinalURDF.SLDASM/meshes/End_effector.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://RoboticArmFinalURDF.SLDASM/meshes/End_effector.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="endeffectorjoint"
+    type="continuous">
+    <origin
+      xyz="0.00499999999999995 0.0470722293044142 0"
+      rpy="-1.10714871779409 -1.57079631189374 1.05634501373587" />
+    <parent
+      link="Link_4" />
+    <child
+      link="End_effector" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+</robot>
