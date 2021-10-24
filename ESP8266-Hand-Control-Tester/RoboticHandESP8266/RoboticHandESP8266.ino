@@ -1,15 +1,20 @@
 // Import required libraries
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
-#include <Hash.h>
-#include <ESPAsyncTCP.h>
+#include <Arduino.h>
+#ifdef ESP32
+  #include <WiFi.h>
+  #include <AsyncTCP.h>
+#else
+  #include <ESP8266WiFi.h>
+  #include <ESPAsyncTCP.h>
+#endif
 #include <ESPAsyncWebServer.h>
 
 //servo
 #include <Wire.h>
 
 #include <Adafruit_PWMServoDriver.h>
-Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x42);
 #define SERVOMIN  150 // This is the 'minimum' pulse length count (out of 4096)
 #define SERVOMAX  600 // This is the 'maximum' pulse length count (out of 4096)
 #define USMIN  600 // This is the rounded 'minimum' microsecond length based on the minimum pulse of 150
@@ -28,23 +33,22 @@ uint8_t servonum10 = 9;
 //servo
 
 // Replace with your network credentials
-const char* ssid = "";
-const char* password = "";
+const char* ssid = "ASUS";
+const char* password = "bingrui123";
 
 //Other Var
-const int LEDPin = D6;
 unsigned long previousMillis2 = 0;
 const long interval2 = 500; 
-int value1=0;
-int value2=0;
-int value3=0;
-int value4=0;
-int value5=0;
-int value6=0;
-int value7=0;
-int value8=0;
-int value9=0;
-int value10=0;
+int value1=90;
+int value2=90;
+int value3=90;
+int value4=90;
+int value5=90;
+int value6=88;
+int value7=88;
+int value8=88;
+int value9=88;
+int value10=88;
 int microsec1;
 int microsec2;
 int microsec3;
@@ -322,7 +326,7 @@ setInterval(function ( ) {
 </script>
 </html>)rawliteral";
 
-/
+
 String processor(const String& var){
   //Serial.println(var);
   if(var == "THUMBFINGERFLEX"){
@@ -359,7 +363,6 @@ String processor(const String& var){
 void setup(){
   // Serial port for debugging purposes
   Serial.begin(115200);
-  Wire.begin(D1, D2);
   pwm.begin();//start servo
   pwm.setOscillatorFrequency(27000000);
   pwm.setPWMFreq(SERVO_FREQ);  // Analog servos run at ~50 Hz updates
@@ -618,7 +621,7 @@ void setup(){
   // Start server
   server.begin();
 }
-int UpdateMS()
+void UpdateMS()
 {
     microsec1= map(value1,0,180,USMIN,USMAX);
     microsec2= map(value2,0,180,USMIN,USMAX);
