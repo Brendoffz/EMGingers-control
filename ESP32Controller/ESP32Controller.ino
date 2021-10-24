@@ -255,5 +255,13 @@ void loop( void ) {
   updatecoordinate(x,y,z,rotangle);
   UpdateValues();
   UpdateSpiffs();
+<<<<<<< Updated upstream
+=======
+  controlmotor();
+  while(Serial.available())
+  {
+    Serial.write(Serial.read());
+  }
+>>>>>>> Stashed changes
   
 }

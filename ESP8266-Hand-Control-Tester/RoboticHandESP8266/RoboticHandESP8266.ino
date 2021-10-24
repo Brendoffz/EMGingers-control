@@ -1,8 +1,18 @@
 // Import required libraries
 #include <Arduino.h>
+<<<<<<< Updated upstream
 #include <ESP8266WiFi.h>
 #include <Hash.h>
 #include <ESPAsyncTCP.h>
+=======
+#ifdef ESP32
+  #include <WiFi.h>
+  #include <AsyncTCP.h>
+#else
+  #include <ESP8266WiFi.h>
+  #include <ESPAsyncTCP.h>
+#endif
+>>>>>>> Stashed changes
 #include <ESPAsyncWebServer.h>
 
 //servo
@@ -28,8 +38,13 @@ uint8_t servonum10 = 9;
 //servo
 
 // Replace with your network credentials
+<<<<<<< Updated upstream
 const char* ssid = "";
 const char* password = "";
+=======
+const char* ssid = "dlink-C5A0";
+const char* password = "idagh41344";
+>>>>>>> Stashed changes
 
 //Other Var
 const int LEDPin = D6;

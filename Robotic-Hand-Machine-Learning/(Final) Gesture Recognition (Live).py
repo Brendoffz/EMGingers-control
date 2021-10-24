@@ -7,7 +7,8 @@ import myo
 import time
 import psutil
 import os
-
+import requests 
+import requests as reqs 
 
 # This training set will contain 1000 samples of 8 sensor values
 global training_set
@@ -17,7 +18,7 @@ global data_array
 number_of_samples = 200
 size=200 
 data_array=[]
-model=tf.keras.models.load_model("Test2_realistic_model.h5")
+model=tf.keras.models.load_model("br_realistic_model.h5")
 
 # Check if Myo Connect.exe process is running
 def check_if_process_running():
@@ -109,24 +110,32 @@ def Train():
         print(predicted_value)
         if predicted_value == 0:
             print("Thumb open")
+            control(180,0,0,0,0)
         elif predicted_value == 1:
             print("Index finger open")
+            control(0,180,0,0,0)
         elif predicted_value == 2:
             print("Middle finger open")
+            control(0,0,180,0,0)
         elif predicted_value == 3:
             print("Ring finger open")
+            control(0,0,0,180,0)
         elif predicted_value == 4:
             print("Pinky finger open")
+            control(0,0,0,0,180)
         elif predicted_value == 5:
             print("Two fingers open")
+            #control(0,180,180,0,0)
         elif predicted_value == 6:
             print("Three fingers open")
         elif predicted_value == 7:
             print("Four fingers open")
         elif predicted_value == 8:
             print("Five fingers open")
+            control(180,180,180,180,180)
         elif predicted_value == 9:
             print("All fingers closed")
+            control(0,0,0,0,0)
         elif predicted_value == 10:
             print("Grasp movement")
         elif predicted_value == 11:
@@ -148,10 +157,21 @@ def main():
     time.sleep(3)
     
     # Initialize the SDK of Myo Armband
-    myo.init(r'C:\Users\m\Desktop\Projects\EMGingers-control\Robotic-Hand-Machine-Learning\myo-sdk-win-0.9.0\bin\myo64.dll')
+    myo.init(r'C:\Users\himol\OneDrive\Documents\GitHub\EMGingers-control\Robotic-Hand-Machine-Learning\myo-sdk-win-0.9.0\bin\myo64.dll')
     hub = myo.Hub()
     listener = Listener(number_of_samples)            
     Train()
-
+def control(a,b,c,d,e):
+    url1="http://192.168.0.108/get?input1="
+    url2="http://192.168.0.108/get?input2="
+    url3="http://192.168.0.108/get?input3="
+    url4="http://192.168.0.108/get?input4="
+    url5="http://192.168.0.108/get?input5="
+    reqs.get(url1+str(a))
+    reqs.get(url2+str(b)) 
+    reqs.get(url3+str(c)) 
+    reqs.get(url4+str(d)) 
+    reqs.get(url5+str(e)) 
+    
 if __name__ == '__main__':
     main()

@@ -1,7 +1,7 @@
 #Setting up
 from __future__ import print_function
 from collections import deque
-
+from threading import Lock, Thread
 import seaborn as sb
 
 import numpy as np
@@ -29,7 +29,7 @@ RecordingInterval=10 #In Seconds
 number_of_samples = FrequencyofArmband*RecordingInterval
 data_array=[]
 size=200 #Response of hand movement depends on the sampling size, Current size is 100.
-gestures=4 #Rest and 3 other gestures
+gestures=13 #Rest and 12 other gestures
 
 #Setting up Testing Variables
 # 8 Sensors in armband
@@ -52,12 +52,7 @@ verification_set = np.zeros((number_of_channels,number_of_samples))
 training_set = np.zeros((number_of_channels,number_of_samples))
 
 
-gesture1_label = 0
-gesture2_label = 1
-gesture3_label = 2
-gesture4_label = 3
 
- 
 #Connecting to Armband
 
 name = input("Enter name of Subject")
@@ -150,7 +145,7 @@ def main():
     time.sleep(3)
     
     # Initialize the SDK of Myo Armband
-    myo.init(r'C:\Users\m\Desktop\Projects\EMGingers-control\Robotic-Hand-Machine-Learning\myo-sdk-win-0.9.0\bin\myo64.dll')
+    myo.init(r'C:\Users\himol\OneDrive\Documents\GitHub\EMGingers-control\Robotic-Hand-Machine-Learning\myo-sdk-win-0.9.0\bin\myo64.dll')
     # Change as needed
     hub = myo.Hub()
     listener = Listener(number_of_samples)
@@ -388,7 +383,7 @@ def main():
             relax_training_set,
         ],axis=0)
     print(conc_array.shape)
-    np.savetxt('C:/Users/m/Desktop/Projects/EMGingers-control/Robotic-Hand-Machine-Learning/'+name+'.txt', conc_array, fmt='%i')
+    np.savetxt('C:/Users/himol/OneDrive/Documents/GitHub/EMGingers-control/Robotic-Hand-Machine-Learning/'+name+'.txt', conc_array, fmt='%i')
     #change as needed 
     # In this method the EMG data gets trained and verified
 
@@ -436,7 +431,7 @@ def Train(conc_array):
         metrics=['accuracy'])
          
     history = model.fit(train_data, train_labels, epochs=200,validation_data=(validation_data,validation_labels),batch_size=16)
-    model.save('C:/Users/m/Desktop/Projects/EMGingers-control/Robotic-Hand-Machine-Learning/'+name+'_realistic_model.h5')
+    model.save('C:/Users/himol/OneDrive/Documents/GitHub/EMGingers-control/Robotic-Hand-Machine-Learning/'+name+'_realistic_model.h5')
     #change as needed 
 
     
