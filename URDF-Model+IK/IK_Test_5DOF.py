@@ -56,8 +56,8 @@ while True:
     if (time.time()>previoustime+interval):
         p.stepSimulation()
         previoustime=time.time()
-        print("FK")
-        print(p.getLinkState(arm,4,computeForwardKinematics=1))
+        #print("FK")
+        #print(p.getLinkState(arm,4,computeForwardKinematics=1))
         
 
     if(time.time()>previoustime2+interval2): 
@@ -68,7 +68,8 @@ while True:
              coordinate[1]=float(coordinate[1])/100
              coordinate[2]=float(coordinate[2])/100
          except:
-             print("An exception occurred") 
+             print("An exception occurred")
+             coordinate=[.150,.120,0.000]
          print("coordinate")
          print(coordinate)
          angleA, angleB, angleC, angleD, angleE=p.calculateInverseKinematics(arm,4,coordinate)
@@ -102,6 +103,11 @@ while True:
                         controlMode=p.POSITION_CONTROL,
                         targetPosition=angleE,
                         force=20)
-
-    
-    
+         angleA = int(angleA*180/3.14+180)
+         angleB = int(angleB*180/3.14+180)
+         angleC = int(angleC*180/3.14+180)
+         angleD = int(angleD*180/3.14+180)
+         angleE = int(angleE*180/3.14+180)
+         print(angleA, angleB, angleC, angleD, angleE)
+         data=str(angleA)+','+str(angleB)+','+str(angleC)+','+str(angleD)+','+str(angleE)
+         esp.write(data.encode())

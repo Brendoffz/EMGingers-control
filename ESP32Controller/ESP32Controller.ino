@@ -68,7 +68,7 @@ int previousy=0;
 int previousz=0;
 float previousa=0.0;
 float rotangle;
-uint16_t coordianteprecision=1;
+uint16_t coordianteprecision=10;
 float angleprecision=0.5;
 
 
@@ -286,6 +286,72 @@ void loop( void )
   updatecoordinate(x,y,z,rotangle);
   UpdateValues();
   UpdateSpiffs();
-  controlmotor();
+  if(modes){controlmotor();}
+  if(!modes){getAnglesIK();}
   
+  
+}
+int previousState=0;
+int gripperState=0;
+void getAnglesIK()
+{
+  int L1=500;
+  int L2=400;
+  float leftside=0.0;
+  float rightside=0.0;
+  float minDifference=99999.9;
+  float bestAngle=0.0;
+  for(float a=0.0;a<=3.14;a+=0.01)
+  {
+    leftside=(z-L1*sin(a));
+    //Serial.println(leftside);
+    rightside=L2*cos(   (  acos(    (  x-L1*cos(a)  )/L2   )  )  );
+    //Serial.println(rightside);
+    if (abs(leftside-rightside)<minDifference)
+    {
+      minDifference=abs(leftside-rightside);
+      bestAngle=a;
+    }
+  }
+  
+  value2=bestAngle;
+  value3=acos( (x-L1*cos(value2))/L2    );
+  if(value2<0)
+  {
+    value2+=3.14;
+  }
+  if(value3<0)
+  {
+    value3+=3.14;
+  }
+  value2*=180.0/3.14;
+  value3*=180.0/3.14;
+  value3=value3+value2-15.0;
+  value2=map(value2,180,0,0,180);
+  pwm.writeMicroseconds(1,map(value2,0,180,500,2500));
+  pwm.writeMicroseconds(2,map(value3,0,180,500,2500));
+  pwm.writeMicroseconds(3,map(rotangle,-90,90,500,2500));
+  if(Centre.state==1 && previousState==0)
+  {
+    previousState=1;
+  }
+  else if(Centre.state==0 && previousState==1)
+  {
+    previousState=0;
+    if(gripperState==0)
+    {
+      pwm.writeMicroseconds(5,500);
+      gripperState=1;
+    }
+    else if(gripperState==1)
+    {
+      pwm.writeMicroseconds(5,2500);
+      gripperState=0;
+    }
+  }
+  Serial.println(Centre.state);
+  Serial.println(previousState);
+  Serial.println(gripperState);
+  Serial.println();
+  Serial.println();
 }

@@ -1,6 +1,6 @@
 import pybullet as p
 import time
-coordinate=[.1,.1,0.3]
+coordinate=[50.-0,2.0,3.2]
 rawdata=[]
 file_name = "RoboticArmFinalURDF.urdf"
 p.connect(p.GUI)
@@ -52,20 +52,21 @@ p.setJointMotorControl2(bodyIndex=arm,
 previoustime=0
 interval=0.1
 previoustime2=0
-interval2=2
+interval2=.100
 while True:
-    
-    if (time.time()>previoustime+interval):
-        p.stepSimulation()
-        previoustime=time.time()
+    p.stepSimulation()
+    time.sleep(1)
+    #if (time.time()>previoustime+interval):
+        #p.stepSimulation()
+       # previoustime=time.time()
         #print(p.getLinkState(arm,5,computeForwardKinematics=1))
         
 
-    if(time.time()>previoustime2+interval2): 
-         previoustime2=time.time()       
+    #if(time.time()>previoustime2+interval2): 
+         #previoustime2=time.time()       
          #coordinate=str(esp.readline().strip().decode("utf-8")).split(',')
          #print(coordinate)
-         print(p.getLinkState(arm,4,computeForwardKinematics=1))
+         #print(p.getLinkState(arm,4,computeForwardKinematics=1))
 
     
     

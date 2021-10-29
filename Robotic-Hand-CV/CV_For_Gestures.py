@@ -11,7 +11,7 @@ frame = None
 key = None
 
 fingerDetector = HandDetector(detectionCon=0.7, maxHands=1)
-cap=cv.VideoCapture(1)
+cap=cv.VideoCapture(0)
 #cap.set(cv.CAP_PROP_FRAME_WIDTH, 2560)
 #cap.set(cv.CAP_PROP_FRAME_HEIGHT, 960)
 
