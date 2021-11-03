@@ -2,11 +2,11 @@ from cvzone.HandTrackingModule import HandDetector
 import cv2 as cv
 import requests 
 import requests as reqs 
-url1="http://192.168.10.103/get?input1="
-url2="http://192.168.10.103/get?input2="
-url3="http://192.168.10.103/get?input3="
-url4="http://192.168.10.103/get?input4="
-url5="http://192.168.10.103/get?input5="
+url1="http://192.168.10.104/get?input1="
+url2="http://192.168.10.104/get?input2="
+url3="http://192.168.10.104/get?input3="
+url4="http://192.168.10.104/get?input4="
+url5="http://192.168.10.104/get?input5="
 frame = None
 key = None
 
