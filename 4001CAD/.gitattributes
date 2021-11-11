@@ -1,0 +1,2 @@
+*.sldasm filter=lfs diff=lfs merge=lfs -text
+*.ms0 filter=lfs diff=lfs merge=lfs -text
