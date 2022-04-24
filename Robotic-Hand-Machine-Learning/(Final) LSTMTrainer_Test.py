@@ -28,16 +28,16 @@ sdk_path = r'D:\Projects\EMGingers-control\Robotic-Hand-Machine-Learning'
 
 frequencyofArmband=200 #Fixed Value
 number_of_channels =8 #Fixed Value
-recordingInterval=10 #In Seconds
+recordingInterval=30 #In Seconds
 number_of_samples = frequencyofArmband*recordingInterval
 frequencyofInertial= 50
-number_of_inertial = 3
-number_of_samples_inertial = frequencyofInertial*number_of_inertial
+number_of_inertial = 4
+number_of_samples_inertial = frequencyofInertial*recordingInterval
 data_array=[]
 imu_array=[]
 size=100 #Response of hand movement depends on the sampling size, Current size is 100.
 gestures=13 #Rest and 12 other gestures
-
+hub_data = 200000000
 #Connecting to Armband
 
 name = input("Enter name of Subject")
@@ -79,10 +79,12 @@ def restart_process():
 # This class from Myo-python SDK listens to EMG signals from armband
 class Listener(myo.DeviceListener):
     
-    def __init__(self, n1):
+    def __init__(self, n1, n2):
         self.n1 = n1
+        self.n2 = n2
         self.lock = Lock()
         self.emg_data_queue = deque(maxlen=n1)
+        self.imu_data_queue = deque(maxlen=n2)
 
     def on_connected(self, event):
         print("Myo Connected")
@@ -102,6 +104,13 @@ class Listener(myo.DeviceListener):
                 self.emg_data_queue.clear()
                 return False
             
+    def on_orientation(self, event):
+        arr1=[event.orientation[0],event.orientation[1],event.orientation[2],event.orientation[3]]
+        self.imu_data_queue.append(arr1)
+        if len(list(self.imu_data_queue))>=self.n2:
+            imu_array.append(list(self.imu_data_queue))
+            self.imu_data_queue.clear()
+            
 
 def main():
     while(restart_process()!=True):
@@ -114,7 +123,7 @@ def main():
     myo.init(sdk_path+r'\myo-sdk-win-0.9.0\bin\myo64.dll')
     # Change as needed
     hub = myo.Hub()
-    listener = Listener(number_of_samples)
+    listener = Listener(number_of_samples,number_of_samples_inertial)
     
     legend = ['Sensor 1','Sensor 2','Sensor 3','Sensor 4','Sensor 5','Sensor 6','Sensor 7','Sensor 8']
     
@@ -123,10 +132,20 @@ def main():
         try:
             hub = myo.Hub()
             input("Open THUMB ")    
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             thumb_open_training_set = np.array((data_array[0]))
             print(thumb_open_training_set.shape)
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            thumb_open_training_set_ori = np.array(ori_cache)
+            print(thumb_open_training_set_ori.shape)
+            imu_array.clear()
             break
         except:
             while(restart_process()!=True):
@@ -140,12 +159,20 @@ def main():
     while True:
         try:
             input("Open index finger")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             # Here we send the received number of samples making them a list of 1000 rows 8 columns 
             index_open_training_set = np.array((data_array[0]))          
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            index_open_training_set_ori = np.array(ori_cache)
+            print(index_open_training_set_ori.shape)
+            imu_array.clear()
             break
         except:
             while(restart_process()!=True):
@@ -157,11 +184,19 @@ def main():
     while True:
         try:
             input("Open MIDDLE finger")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             middle_open_training_set = np.array((data_array[0]))
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            middle_open_training_set_ori = np.array(ori_cache)
+            print(middle_open_training_set_ori.shape)
+            imu_array.clear()
             break
         except:
             while(restart_process()!=True):
@@ -175,11 +210,19 @@ def main():
     while True:
         try:
             input("Open Ring finger")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             ring_open_training_set = np.array((data_array[0]))
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            ring_open_training_set_ori = np.array(ori_cache)
+            print(ring_open_training_set_ori.shape)
+            imu_array.clear()
             break
         except:
             while(restart_process()!=True):
@@ -191,11 +234,19 @@ def main():
     while True:
         try:
             input("Open Pinky finger")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             pinky_open_training_set = np.array((data_array[0]))
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            pinky_open_training_set_ori = np.array(ori_cache)
+            print(pinky_open_training_set_ori.shape)
+            imu_array.clear()
             break
         except:
             while(restart_process()!=True):
@@ -208,11 +259,19 @@ def main():
         try:
     
             input("Open Two fingers")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             two_open_training_set = np.array((data_array[0]))
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            two_open_training_set_ori = np.array(ori_cache)
+            print(two_open_training_set_ori.shape)
+            imu_array.clear()
             break
         except:
             while(restart_process()!=True):
@@ -224,11 +283,19 @@ def main():
     while True:
         try:
             input("Open Three fingers")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             three_open_training_set = np.array((data_array[0]))
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            three_open_training_set_ori = np.array(ori_cache)
+            print(three_open_training_set_ori.shape)
+            imu_array.clear()
             break
         except:
             while(restart_process()!=True):
@@ -240,11 +307,19 @@ def main():
     while True:
         try:            
             input("Open Four fingers")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             four_open_training_set = np.array((data_array[0]))
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            four_open_training_set_ori = np.array(ori_cache)
+            print(four_open_training_set_ori.shape)
+            imu_array.clear()
             break
         except:
             while(restart_process()!=True):
@@ -256,11 +331,19 @@ def main():
     while True:
         try:
             input("Open Five fingers")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             five_open_training_set = np.array((data_array[0]))
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            five_open_training_set_ori = np.array(ori_cache)
+            print(five_open_training_set_ori.shape)
+            imu_array.clear()
             break
         except:
             while(restart_process()!=True):
@@ -272,11 +355,19 @@ def main():
     while True:
         try:
             input("Make all fingers closed")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             all_fingers_closed_training_set = np.array((data_array[0]))
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            all_fingers_closed_training_set_ori = np.array(ori_cache)
+            print(all_fingers_closed_training_set_ori.shape)
+            imu_array.clear()
             break
         except:
             while(restart_process()!=True):
@@ -288,11 +379,18 @@ def main():
     while True:
         try:
             input("Make Grasp movement")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             grasp_training_set = np.array((data_array[0]))
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            grasp_training_set_ori = np.array(ori_cache)
+            print(grasp_training_set_ori.shape)
             break
         except:
             while(restart_process()!=True):
@@ -304,11 +402,18 @@ def main():
     while True:
         try:
             input("Make Pick movement")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             pick_training_set = np.array((data_array[0]))
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            pick_training_set_ori = np.array(ori_cache)
+            print(pick_training_set_ori.shape)
             break
         except:
             while(restart_process()!=True):
@@ -320,11 +425,18 @@ def main():
     while True:
         try:
             input("Make Relax movement")
-            hub = myo.Hub()
-            listener = Listener(number_of_samples)
-            hub.run(listener.on_event,20000)
+            hub.run(listener.on_event,hub_data)
             relax_training_set = np.array((data_array[0]))
             data_array.clear()
+            
+            ori_cache=[]
+            num=np.array(imu_array[0]).shape[0]
+            for i in range(num):
+                add=[imu_array[0][i],imu_array[0][i],imu_array[0][i],imu_array[0][i]]
+                ori_cache.extend(add)
+                i+4
+            relax_training_set_ori = np.array(ori_cache)
+            print(relax_training_set_ori.shape)
             break
         except:
             while(restart_process()!=True):
@@ -348,15 +460,27 @@ def main():
             relax_training_set,
         ],axis=0)
     print(conc_array.shape)
-    np.savetxt(save_path+name+'.txt', conc_array, fmt='%i')
+    conc_array1 = np.concatenate([
+            thumb_open_training_set_ori,
+            index_open_training_set_ori,
+            middle_open_training_set_ori,
+            ring_open_training_set_ori,
+            pinky_open_training_set_ori,
+            two_open_training_set_ori,
+            three_open_training_set_ori,
+            four_open_training_set_ori,
+            five_open_training_set_ori,
+            all_fingers_closed_training_set_ori,
+            grasp_training_set_ori,
+            pick_training_set_ori,
+            relax_training_set_ori,
+        ],axis=0)
     #change as needed 
     # In this method the EMG data gets trained and verified
-    
-    Train(conc_array)
-    
+    Train(conc_array,conc_array1)
 
 # This method is responsible for training EMG data
-def Train(conc_array):
+def Train(conc_array,conc_array1):
     train_size =.8
     global training_set,gestures
     global index_open_training_set, middle_open_training_set, thumb_open_training_set, ring_open_training_set, pinky_open_training_set, verification_set
@@ -365,18 +489,24 @@ def Train(conc_array):
     labels=[]
     print(conc_array.size)
     TrainingSamples=int(conc_array.size/(size*number_of_channels)) #TrainingSample is the number of train data, size is the length of each data, 8 is channel of data
+    print(conc_array1.size)
+    TrainingSamples1=int(conc_array1.size/(size*number_of_inertial)) #TrainingSample is the number of train data, size is the length of each data, 8 is channel of data
     
     conc_array=np.reshape(conc_array, (TrainingSamples,size,number_of_channels))
     print(conc_array,conc_array.shape)
     
+    conc_array1=np.reshape(conc_array1, (TrainingSamples1,size,number_of_inertial))
+    print(conc_array1,conc_array1.shape)
+    
     for i in range(0,gestures):
         for j in range(0,(int(TrainingSamples/gestures))):
             labels.append(i)
-    
+    conc_array= np.concatenate((conc_array,conc_array1),axis=2)
+    print(conc_array,conc_array.shape)
     labels = np.asarray(labels)
     train_data, validation_data,train_labels,validation_labels = train_test_split(conc_array, labels, train_size=.8, random_state = 3,stratify=labels)
-    np.savetxt(save_path+'train_data.csv',train_data.reshape(len(train_data),size*number_of_channels), delimiter=',')
-    np.savetxt(save_path+'validation_data.csv', validation_data.reshape(len(validation_data),size*number_of_channels), delimiter=',')
+    np.savetxt(save_path+'train_data.csv',train_data.reshape(len(train_data),size*(number_of_channels+number_of_inertial)), delimiter=',')
+    np.savetxt(save_path+'validation_data.csv', validation_data.reshape(len(validation_data),size*(number_of_channels+number_of_inertial)), delimiter=',')
     np.savetxt(save_path+'train_labels.csv', train_labels, delimiter=',')
     np.savetxt(save_path+'validation_labels.csv', validation_labels, delimiter=',')
     
@@ -391,7 +521,7 @@ def Train(conc_array):
     print(train_labels)
     
     model = Sequential()
-    model.add(LSTM(50,input_shape=(size,number_of_channels),return_sequences=True))
+    model.add(LSTM(50,input_shape=(size,number_of_channels+number_of_inertial),return_sequences=True))
     model.add(Dropout(0.2))
     model.add(LSTM(50))
     model.add(Dropout(0.2))
